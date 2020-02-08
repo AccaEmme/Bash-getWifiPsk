@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# get Unix wifi password ( of saved networks )
+
+# rete
+rete=$(iwconfig 2> /dev/null | awk '/"(.+)"/{print $4}' | cut -f 2 -d ':')
+
+# stampo dal secondo(1) carattere all'ultimo -2
+echo ${rete:1:${#rete}-2}
+
+# oppure rete=${iwconfig 2> /dev/null | grep ESSID | awk -F '"' '{print$2}'}
+
+# altrimenti si può fare un menù per scegliere la rete da: nmcli connection show
+
+sudo cat /etc/NetworkManager/system-connections/${rete:1:${#rete}-2} | grep psk
+
+echo ":-)"
